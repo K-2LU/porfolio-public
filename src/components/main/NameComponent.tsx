@@ -1,6 +1,6 @@
 const NameComponent = () => {
   return (
-    <div>NameComponent</div>
+    <div className="font-league-spartan text-[128px] w-full">Rigan Mahmud Chowdhury</div>
   )
 }
 

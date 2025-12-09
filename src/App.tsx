@@ -1,12 +1,13 @@
+import NameComponent from "./components/main/NameComponent"
+
 function App() {
   return (
     <>
     <div className='flex flex-row w-full h-svh
                     items-center
-                    justify-center 
-                    font-extrabold color-gray-800 
+                    justify-center  
                     bg-red-100'>
-                      Hello
+                      <NameComponent />
     </div>
     </>
   )

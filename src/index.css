@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'league-spartan';
+  src: url('./assets/fonts/League_Spartan/LeagueSpartan-VariableFont_wght.ttf') format('.ttf');
+}
+
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
