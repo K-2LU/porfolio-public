@@ -8,25 +8,30 @@ const CHAR_HEIGHT = 48
 
 const OdometerCharacter = ({
   character,
-  speed = 30
+  speed = 30,
+  className = ''
 }: {
   character: string
   speed?: number
+  className?: string
 }) => {
   const isLetter = ALPHABET.includes(character)
   const targetIndex = isLetter ? ALPHABET.indexOf(character) : 0
   const alphaLen = ALPHABET.length
 
-  // Strip long enough for both initial and hover animations
+  // Further from start = faster spin (more slots to cover, less ms per slot)
+  // Range: speed ms/slot (index 0) → speed/2 ms/slot (last index)
+  const msPerSlot = speed / (1 + targetIndex / alphaLen)
+
   const strip = [
     ...Array(MAX_SPINS).fill(null).flatMap(() => ALPHABET.split('')),
     ...ALPHABET.slice(0, targetIndex + 1).split(''),
   ]
 
   const normalFinalY = -((SPINS * alphaLen + targetIndex) * CHAR_HEIGHT)
-  const normalDuration = (SPINS * alphaLen + targetIndex) * speed
+  const normalDuration = (SPINS * alphaLen + targetIndex) * msPerSlot
   const hoverFinalY = -((HOVER_SPINS * alphaLen) * CHAR_HEIGHT)
-  const hoverDuration = HOVER_SPINS * alphaLen * speed
+  const hoverDuration = HOVER_SPINS * alphaLen * msPerSlot
 
   const [translateY, setTranslateY] = useState(0)
   const [transition, setTransition] = useState('none')
@@ -84,12 +89,12 @@ const OdometerCharacter = ({
     const currentY = getCurrentY()
     const toY = nextTargetY(currentY)
     const slots = Math.abs(toY - currentY) / CHAR_HEIGHT
-    snapAndRun(toY, `transform ${slots * speed}ms cubic-bezier(0.25, 0.1, 0.1, 1)`)
+    snapAndRun(toY, `transform ${slots * msPerSlot}ms cubic-bezier(0.25, 0.1, 0.1, 1)`)
   }
 
   if (!isLetter) {
     return (
-      <div className="shadow-inner shadow-[#1A1515]/20 p-[2px] text-4xl h-12 flex items-center">
+      <div className={`shadow-inner shadow-[#1A1515]/20 p-[2px] text-4xl h-12 flex items-center ${className}`}>
         {character}
       </div>
     )
@@ -97,7 +102,7 @@ const OdometerCharacter = ({
 
   return (
     <div
-      className="shadow-inner shadow-[#1A1515]/20 p-[2px] text-4xl overflow-hidden cursor-default"
+      className={`shadow-inner shadow-[#1A1515]/20 p-[2px] text-4xl overflow-hidden cursor-default ${className}`}
       style={{ height: CHAR_HEIGHT }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
