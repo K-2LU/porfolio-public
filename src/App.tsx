@@ -1,13 +1,12 @@
-import NameComponent from "./components/main/NameComponent"
+import Navbar from "./sections/Navbar/Navbar"
 
 function App() {
   return (
     <>
-    <div className='flex flex-row w-full h-svh
+    <div className='flex flex-col w-full h-svh
                     items-center
-                    justify-center  
-                    bg-red-100'>
-                      <NameComponent />
+                    justify-center py-4'>
+      <Navbar />
     </div>
     </>
   )
